@@ -235,8 +235,22 @@ class MemberRepositoryTest {
             System.out.println("member.getUsername() = " + member.getUsername());
             System.out.println("member.getTeam().getName() = " + member.getTeam().getName()); // query N번 -> @EntityGraph로 해결
         }
+    }
 
-        // then
+    @Test
+    public void queryHint() {
+        // given
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
 
+        // when
+        // Member findMember = memberRepository.findById(member1.getId()).get(); // dirty checking -> update
+        Member findMember = memberRepository.findReadOnlyByUsername("member1"); // dirty checking X (readOnly)
+
+        findMember.setUsername("member2"); // dirty checking -> update
+
+        em.flush(); // dirty checking -> update
     }
 }
