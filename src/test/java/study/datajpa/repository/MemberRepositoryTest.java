@@ -283,10 +283,11 @@ class MemberRepositoryTest {
         em.persist(member2);
 
         // when
-        List<UsernameOnly> result = memberRepository.findProjectionsByUsername("member1");
+        // List<UsernameOnly> result = memberRepository.findProjectionsByUsername("member1");
+        List<UsernameOnlyDto> result = memberRepository.findProjectionsByUsername("member1", UsernameOnlyDto.class);
 
-        for (UsernameOnly usernameOnly : result) {
-            System.out.println("usernameOnly = " + usernameOnly);
+        for (UsernameOnlyDto usernameOnly : result) {
+            System.out.println("usernameOnly = " + usernameOnly.getUsername());
         }
     }
 }
