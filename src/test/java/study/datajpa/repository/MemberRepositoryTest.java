@@ -299,7 +299,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void nativeQuert() {
+    public void nativeQuery() {
         // given
         Team teamA = new Team("teamA");
         em.persist(teamA);
@@ -313,7 +313,12 @@ class MemberRepositoryTest {
         em.clear();
 
         // when
-        Member result = memberRepository.findByNativeQuery("member1");
-        System.out.println("result = " + result);
+        // Member result = memberRepository.findByNativeQuery("member1");
+        Page<MemberProjection> result = memberRepository.findByNativeProjection(PageRequest.of(0, 10));
+        List<MemberProjection> content = result.getContent();
+        for (MemberProjection memberProjection : content) {
+            System.out.println("memberProjection.getUsername = " + memberProjection.getUsername());
+            System.out.println("memberProjection.getTeamName = " + memberProjection.getTeamName());
+        }
     }
 }
